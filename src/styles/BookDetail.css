@@ -1,0 +1,156 @@
+.detail-page-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 2.5rem;
+    background-color: #EDEFF2;
+    flex: 1;
+    min-height: 0;
+}
+
+.book-detail-container {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    min-width: fit-content;
+    align-items: center;
+}
+
+.image-container img {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.title-text {
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.author-text {
+    display: flex;
+    gap: 5px;
+    font-size: 1.3rem;
+    align-items: center;
+}
+
+.author-icon {
+    color: #FF6B6B;
+}
+
+.author-name {
+    color: #4A6491;
+    font-weight: 500;
+}
+
+.availability-box {
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.availability-box.available {
+    background-color: #f0fdf4;
+    border: 2px solid #BAF6CF;
+}
+
+.availability-box.unavailable {
+    background-color: #fef2f2;
+    border: 2px solid #e65959;
+}
+
+.available-text {
+    font-size: 1.2rem;
+    font-weight: 500;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.bi.available {
+    -webkit-text-stroke: 1px #1EA650;
+}
+
+.bi.unavailable {
+    -webkit-text-stroke: 1px #e65959;
+}
+
+.available-text.available {
+    color: #1EA650;
+}
+
+.available-text.unavailable {
+    color: #ef4444;
+}
+
+.availability-text {
+    font-size: 0.9rem;
+}
+
+.status-badge.available {
+    background-color: #f0fdf4;
+    color: #22c55e;
+}
+
+.status-badge.unavailable {
+    background-color: #fef2f2;
+    color: #ef4444;
+}
+
+.little-detail-container {
+    display: flex;
+    gap: 10px;
+    color: #4A6491;
+}
+
+.little-detail {
+    background-color: #EDEFF2;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.little-detail a {
+    color: #4A6491;
+}
+
+.little-detail.link {
+    transition: transform 0.3s ease;
+}
+
+.little-detail.link:hover {
+    transform: scale(1.1);
+}
+
+.description-header {
+    font-size: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .detail-page-container {
+        padding-left: 5rem;
+        padding-right: 5rem;
+    }
+}
+
+@media (min-width: 1280px) {
+    .detail-page-container {
+        padding-left: 10rem;
+        padding-right: 10rem;
+    }
+
+    .book-detail-container {
+        flex-direction: row;
+    }
+}

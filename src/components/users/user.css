@@ -1,0 +1,186 @@
+
+.user-profile-container {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  max-width: 900px;
+  padding: 30px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #f8f9fa, #e3f2fd);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  font-family: "Poppins", sans-serif;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.avatar-wrapper {
+  position: relative;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.avatar-wrapper:hover {
+  transform: scale(1.05);
+}
+
+.avatar-img {
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+  object-fit: cover;
+  border: 5px solid #fff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+
+.camera-icon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: linear-gradient(135deg, #007bff, #00c6ff);
+  border-radius: 50%;
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.camera-icon:hover {
+  background: linear-gradient(135deg, #0056b3, #0099cc);
+  transform: scale(1.1);
+}
+
+.status-toggle {
+  width: 50px;
+  height: 26px;
+  border-radius: 13px;
+  background-color: #ccc;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  padding: 3px;
+}
+
+.status-toggle .toggle-circle {
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+
+.status-toggle.active {
+  background-color: #28a745;
+}
+.status-toggle.active .toggle-circle {
+  transform: translateX(24px);
+}
+
+
+.status-toggle.inactive {
+  background-color: #6c757d;
+}
+.status-toggle.inactive .toggle-circle {
+  transform: translateX(0);
+}
+
+
+.profile-note {
+  margin-top: 20px;
+  text-align: left;
+  font-size: 14px;
+}
+.profile-note ul {
+  padding-left: 18px;
+}
+.required {
+  color: red;
+}
+
+
+
+.button-group {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.button-group .btn {
+  padding: 10px 20px;
+  font-weight: 600;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.button-group .btn-success {
+  background: linear-gradient(135deg, #28a745, #56d679);
+  border: none;
+}
+
+.button-group .btn-success:hover {
+  background: linear-gradient(135deg, #218838, #45c76b);
+  transform: translateY(-2px);
+}
+
+.button-group .btn-secondary {
+  background: linear-gradient(135deg, #6c757d, #adb5bd);
+  border: none;
+}
+
+.button-group .btn-secondary:hover {
+  background: linear-gradient(135deg, #495057, #868e96);
+  transform: translateY(-2px);
+}
+
+form label {
+  font-weight: 600;
+  color: #333;
+}
+
+form input[readonly] {
+  background-color: #f1f3f5;
+  border: 1px solid #dee2e6;
+}
+
+
+.required {
+  color: red;
+  font-weight: bold;
+}
+
+
+.profile-note {
+  margin: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-left: 4px solid #007bff;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 14px;
+  color: #444;
+  animation: fadeIn 0.5s ease;
+}
+
+.profile-note ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.profile-note li {
+  margin-bottom: 6px;
+}

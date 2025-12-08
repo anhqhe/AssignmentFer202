@@ -1,0 +1,123 @@
+/* :root {
+    --tw-border-color: #e5e7eb;
+    --tw-blue-500: #3b82f6;
+    --tw-neutral-50: #f9fafb;
+    --tw-red-600: #dc2626;
+}
+
+.header-container {
+    border: 1px solid var(--tw-border-color);
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 2.5rem;
+    flex-direction: column;
+    box-shadow: 0px 1.5px 3px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.header-brand,
+.header-user-section,
+.header-user-info,
+.header-logout,
+.header-history {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-brand {
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.header-user-section {
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.header-brand-icon-wrapper {
+    background-color: var(--tw-blue-500);
+    border-radius: 0.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.25rem;
+}
+
+.header-brand-icon {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    color: var(--tw-neutral-50);
+}
+
+.header-title {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 700;
+}
+
+.header-user-avatar {
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+
+.header-user-name {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.header-user-role {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.header-logout,
+.header-history {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    margin-left: 1rem;
+    gap: 0.5rem;
+}
+
+.header-logout {
+    color: var(--tw-red-600);
+
+}
+
+@media (min-width: 640px) {
+    .header-container {
+        padding-left: 5rem;
+        padding-right: 5rem;
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .header-brand {
+        justify-content: flex-start;
+    }
+}
+
+@media (min-width: 768px) {
+    .header-container {
+        padding-left: 10rem;
+        padding-right: 10rem;
+    }
+
+    .header-user-name {
+        font-size: 0.9rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .header-user-name {
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 1280px) {
+    .header-logout {
+        margin-left: 2rem;
+    }
+} */

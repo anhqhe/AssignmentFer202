@@ -1,0 +1,254 @@
+:root {
+  --green-primary: #2e7d32;
+  --green-secondary: #43a047;
+  --green-light: #66bb6a;
+  --green-pale: #a5d6a7;
+  --white: #ffffff;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 2.5rem;
+  flex-direction: column;
+  box-shadow: 0px 4px 15px rgba(46, 125, 50, 0.15);
+  background: linear-gradient(135deg, #2e7d32 0%, #43a047 50%, #66bb6a 100%);
+}
+
+.header-brand,
+.header-user-section,
+.header-user-info,
+.header-logout,
+.header-login,
+.header-history {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+
+.header-brand {
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.header-brand:hover {
+  transform: scale(1.02);
+}
+
+.header-user-section {
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.header-brand-icon-wrapper {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem;
+  backdrop-filter: blur(5px);
+}
+
+.header-brand-icon {
+  font-size: 2rem;
+  line-height: 2rem;
+  color: #ffffff;
+}
+
+.header-brand-text {
+  color: white;
+  margin-left: 10px;
+}
+
+.header-title {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-subtitle {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+.header-user-info {
+  color: white;
+  transition: all 0.3s ease;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.header-user-info:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #e8f5e9;
+}
+
+.header-user-name,
+.header-user-role,
+.header-title,
+.header-subtitle {
+  text-align: start;
+}
+
+.header-history {
+  color: white;
+  display: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.header-history:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: #e8f5e9;
+}
+
+.header-user-avatar {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.header-user-name {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.header-user-role {
+  font-size: 0.8rem;
+  line-height: 1.25rem;
+  opacity: 0.85;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.header-logout,
+.header-login,
+.header-history {
+  font-size: 1rem;
+  line-height: 1.75rem;
+  margin-left: 1rem;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.header-logout,
+.header-login {
+  color: white;
+  border-radius: 25px;
+  padding: 8px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.header-logout {
+  background: linear-gradient(135deg, #ef5350, #d32f2f);
+  border: none;
+  box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+}
+
+.header-logout:hover {
+  background: linear-gradient(135deg, #d32f2f, #c62828);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(211, 47, 47, 0.4);
+}
+
+.header-login {
+  background: linear-gradient(135deg, #81c784, #4caf50);
+  border: none;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.header-login:hover {
+  background: linear-gradient(135deg, #66bb6a, #43a047);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.logout-icon,
+.login-icon {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75rem;
+}
+
+.logout-text,
+.login-text {
+  margin-right: 5px;
+}
+
+/* Avatar styling */
+.header-user-info img {
+  border: 3px solid rgba(255, 255, 255, 0.5) !important;
+  transition: all 0.3s ease;
+}
+
+.header-user-info:hover img {
+  border-color: rgba(255, 255, 255, 0.8) !important;
+  transform: scale(1.05);
+}
+
+@media (min-width: 640px) {
+  .header-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .header-brand {
+    justify-content: flex-start;
+  }
+}
+
+@media (min-width: 768px) {
+  .header-container {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+
+  .header-user-name {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header-user-name {
+    font-size: 1rem;
+  }
+
+  .header-history {
+    display: flex;
+  }
+}
+
+@media (min-width: 1280px) {
+  .header-logout {
+    margin-left: 2rem;
+  }
+}
+
+.website {
+  overflow-x: hidden;
+}

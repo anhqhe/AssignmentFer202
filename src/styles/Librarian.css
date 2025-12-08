@@ -1,0 +1,210 @@
+.librarian-dashboard-sidebar {
+    background-color: #2C3E50;
+    height: 100vh;
+    position: fixed;
+    width: 270px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+
+.librarian-dashboard {
+    margin-left: 270px;
+}
+
+.dashboard-logo {
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    gap: 5px;
+    width: 100%;
+    border-bottom: 1px solid white;
+    cursor: pointer;
+}
+
+.nav-container {
+    margin-top: 25px;
+    width: 100%;
+}
+
+.dashboard-nav {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    color: white;
+    font-size: 1.2rem;
+    gap: 5px;
+    padding: 15px;
+    width: 100%;
+    border: none;
+    background-color: inherit;
+    transition: background-color 0.3s ease;
+}
+
+.nav-text {
+    font-size: 1.1rem;
+}
+
+.dashboard-nav:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.dashboard-nav.active {
+    background-color: #3C5065;
+    position: relative;
+}
+
+.dashboard-nav.active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background-color: #4CAF50;
+}
+
+.dashboard-profile {
+    width: 100%;
+    border-top: 1px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+    padding: 15px;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.librarian-page-container {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.book-list-head {
+    background-color: #F5F7FA;
+}
+
+.book-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.book-action {
+    border-radius: 5px;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border: none;
+    transition: transform 0.3s ease;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.book-action.view {
+    background-color: #FEA118;
+}
+
+.book-action.edit {
+    background-color: #369FF3;
+}
+
+.book-action.hide {
+    background-color: red;
+}
+
+.book-action.unhide {
+    background-color: #41AB5D;
+}
+
+.book-action:hover {
+    transform: scale(1.1);
+}
+
+.book-action.disabled{
+    background-color: gray;
+    cursor: default;
+}
+
+.book-status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.book-status.active {
+    color: #2E7D32;
+    background-color: #E8F5E9;
+}
+
+.book-status.hidden {
+    color: #C62828;
+    background-color: #FFEBEE;
+}
+
+.book-list-item {
+    position: relative;
+}
+
+.book-list-item::before {
+    content: "";
+    position: absolute;
+    width: 3px;
+    height: 100%;
+    margin: 0;
+    left: 0;
+    top: 0;
+}
+
+.book-list-item.available::before {
+    background-color: green;
+}
+
+.book-list-item.unavailable::before {
+    background-color: red;
+}
+
+.table-container{
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+    height: fit-content;
+}
+
+.add-book-button{
+    width: fit-content;
+}
+
+.copy-condition.good{
+    color: #4CAF50;
+}
+.copy-condition.damaged{
+    color: red;
+}
+.copy-condition.lost{
+    color: gray;
+    text-decoration: line-through;
+}
+
+.book-selector-container{
+    overflow-y: auto;
+    max-height: 500px;
+}
+
+.book-selector{
+    border: none;
+    background-color: transparent;
+    width: 100%;
+    height: 100%;
+    text-align: start;
+}
+
+.book-selector.selected{
+    background-color: #369FF3;
+}

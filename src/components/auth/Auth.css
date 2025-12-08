@@ -1,0 +1,408 @@
+/* ============================================
+   GREEN & WHITE THEME - LIBRARY LOGIN
+   ============================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap");
+
+/* Login Container */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 50%, #a5d6a7 100%);
+  position: relative;
+  overflow: hidden;
+  font-family: "Nunito", sans-serif;
+}
+
+/* Decorative circles */
+.login-container::before {
+  content: "";
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(135deg, #43a047, #66bb6a);
+  border-radius: 50%;
+  top: -150px;
+  right: -100px;
+  opacity: 0.3;
+  animation: float1 6s ease-in-out infinite;
+}
+
+.login-container::after {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(135deg, #2e7d32, #4caf50);
+  border-radius: 50%;
+  bottom: -100px;
+  left: -80px;
+  opacity: 0.25;
+  animation: float2 8s ease-in-out infinite;
+}
+
+@keyframes float1 {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(20px, 20px) rotate(5deg);
+  }
+}
+
+@keyframes float2 {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(-15px, -25px) rotate(-5deg);
+  }
+}
+
+/* Register Container */
+.register-container {
+  position: relative;
+  overflow: hidden;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 50%, #a5d6a7 100%);
+  font-family: "Nunito", sans-serif;
+}
+
+.register-container::before {
+  content: "";
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(135deg, #43a047, #66bb6a);
+  border-radius: 50%;
+  top: -150px;
+  right: -100px;
+  opacity: 0.3;
+  animation: float1 6s ease-in-out infinite;
+}
+
+.register-container::after {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(135deg, #2e7d32, #4caf50);
+  border-radius: 50%;
+  bottom: -100px;
+  left: -80px;
+  opacity: 0.25;
+  animation: float2 8s ease-in-out infinite;
+}
+
+/* Auth Card Container */
+.auth-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 45px 40px;
+  border: 1px solid rgba(76, 175, 80, 0.15);
+  box-shadow: 0 20px 60px rgba(46, 125, 50, 0.15),
+    0 8px 25px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s ease;
+  position: relative;
+  z-index: 10;
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 70px rgba(46, 125, 50, 0.2), 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo styling */
+.auth-container img {
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(46, 125, 50, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.auth-container img:hover {
+  transform: scale(1.02);
+}
+
+/* Title Styles */
+.auth-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #2e7d32;
+  margin-bottom: 8px;
+  font-family: "Nunito", sans-serif;
+  letter-spacing: -0.5px;
+}
+
+.auth-subtitle {
+  font-size: 1rem;
+  color: #66bb6a;
+  margin-bottom: 25px;
+  font-weight: 500;
+}
+
+/* Icon decoration */
+.auth-icon {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #43a047 0%, #66bb6a 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 8px 25px rgba(67, 160, 71, 0.35);
+}
+
+.auth-icon i {
+  font-size: 1.8rem;
+  color: #fff;
+}
+
+/* Input Styles */
+.auth-input {
+  border-radius: 12px;
+  border: 2px solid #e0e0e0;
+  padding: 14px 16px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #fafafa;
+  color: #333;
+  font-family: "Nunito", sans-serif;
+}
+
+.auth-input::placeholder {
+  color: #9e9e9e;
+}
+
+.auth-input:focus {
+  border-color: #4caf50;
+  box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.15);
+  background: #fff;
+  outline: none;
+}
+
+/* Form Label */
+.form-label,
+.form-lable {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #388e3c;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.form-label i,
+.form-lable i {
+  color: #4caf50;
+}
+
+/* Input Group styling */
+.input-group-text {
+  background: linear-gradient(135deg, #43a047, #66bb6a);
+  border: none;
+  color: #fff;
+  border-radius: 12px 0 0 12px;
+}
+
+.input-group .auth-input {
+  border-radius: 0 12px 12px 0;
+}
+
+/* Auth Button */
+.auth-button {
+  background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 14px;
+  color: #fff;
+  transition: all 0.3s ease;
+  font-family: "Nunito", sans-serif;
+  letter-spacing: 0.3px;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.auth-button:hover::before {
+  left: 100%;
+}
+
+.auth-button:hover {
+  background: linear-gradient(135deg, #388e3c 0%, #1b5e20 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(46, 125, 50, 0.35);
+}
+
+.auth-button:active {
+  transform: translateY(0);
+}
+
+/* Links */
+.login-link {
+  font-size: 0.95rem;
+  margin-top: 12px;
+  color: #616161;
+  font-weight: 500;
+}
+
+.login-link-text {
+  color: #43a047;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.login-link-text::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #43a047, #66bb6a);
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+
+.login-link-text:hover {
+  color: #2e7d32;
+}
+
+.login-link-text:hover::after {
+  width: 100%;
+}
+
+/* Leaf decoration */
+.leaf-decoration {
+  position: absolute;
+  font-size: 1.5rem;
+  opacity: 0.15;
+  color: #2e7d32;
+}
+
+.leaf-1 {
+  top: 20px;
+  left: 30px;
+  transform: rotate(-30deg);
+}
+.leaf-2 {
+  top: 50px;
+  right: 40px;
+  transform: rotate(45deg);
+}
+.leaf-3 {
+  bottom: 30px;
+  left: 50px;
+  transform: rotate(15deg);
+}
+.leaf-4 {
+  bottom: 60px;
+  right: 30px;
+  transform: rotate(-20deg);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .auth-container {
+    margin: 20px;
+    padding: 35px 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .auth-container {
+    padding: 30px 20px;
+    margin: 15px;
+    border-radius: 20px;
+  }
+
+  .auth-title {
+    font-size: 1.7rem;
+  }
+
+  .auth-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .auth-icon i {
+    font-size: 1.5rem;
+  }
+}
+
+/* Hide logo on mobile */
+@media (max-width: 991px) {
+  .login-logo-col {
+    display: none !important;
+  }
+}
+
+/* Success/Error states */
+.auth-input.is-valid {
+  border-color: #4caf50;
+}
+
+.auth-input.is-invalid {
+  border-color: #f44336;
+}
+
+/* Divider */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  color: #9e9e9e;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c8e6c9, transparent);
+}
+
+.auth-divider span {
+  padding: 0 15px;
+  color: #81c784;
+}

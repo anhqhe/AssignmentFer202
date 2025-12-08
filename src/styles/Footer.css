@@ -1,0 +1,126 @@
+.footer-container {
+  background: linear-gradient(135deg, #2e7d32 0%, #43a047 50%, #66bb6a 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: flex-end;
+  padding: 2rem 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative pattern */
+.footer-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+      circle at 20% 50%,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 50%,
+      rgba(255, 255, 255, 0.08) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  text-align: center;
+}
+
+.footer-header {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.5px;
+}
+
+.footer-content > div:not(.footer-header):not(.brand-container) {
+  opacity: 0.9;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.brand-container {
+  display: flex;
+  gap: 15px;
+  font-size: 1.4rem;
+  margin-top: 10px;
+}
+
+.brand-container .fa-brands {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  backdrop-filter: blur(5px);
+}
+
+.brand-container .fa-brands:hover {
+  color: #c8e6c9;
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Leaf icon decoration */
+.footer-leaf {
+  position: absolute;
+  font-size: 3rem;
+  opacity: 0.1;
+  color: white;
+}
+
+.footer-leaf-1 {
+  top: 10px;
+  left: 5%;
+  transform: rotate(-30deg);
+}
+
+.footer-leaf-2 {
+  bottom: 10px;
+  right: 5%;
+  transform: rotate(30deg);
+}
+
+@media (max-width: 768px) {
+  .footer-header {
+    font-size: 1.2rem;
+  }
+
+  .footer-content > div:not(.footer-header):not(.brand-container) {
+    font-size: 0.85rem;
+    padding: 0 1rem;
+  }
+
+  .brand-container {
+    gap: 12px;
+  }
+
+  .brand-container .fa-brands {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+}
