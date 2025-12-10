@@ -37,7 +37,15 @@ export default function Login() {
           return;
         }
         localStorage.setItem("userAccount", JSON.stringify(acc));
-        navigate("/homepage");
+
+        // Chuyển hướng theo role
+        if (acc.role === "Admin") {
+          navigate("/admin/dashboard");
+        } else if (acc.role === "Librarian") {
+          navigate("/librarian/dashboard");
+        } else {
+          navigate("/homepage");
+        }
       })
       .catch((err) => console.error(err));
   };

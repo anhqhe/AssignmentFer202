@@ -145,7 +145,7 @@ export default function ForgotPassword() {
   return (
     <Container className="login-container" fluid>
       <Row
-        className="justify-content-center align-items-center"
+        className="justify-content-center align-items-center w-100"
         style={{ minHeight: "100vh", position: "relative", zIndex: 10 }}
       >
         <Col md={8} lg={6} xl={5} className="px-4">
