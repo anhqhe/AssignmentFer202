@@ -2,61 +2,78 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Row, Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import './Dashboard.css'
+import "./Dashboard.css";
 
 export default function Dashboard() {
-    const [totalAcc, setTotalAcc] = useState(0)
-    const [totalAccActive, setTotalAccActive] = useState(0)
-    const [totalAccInactive, setTotalAccInactive] = useState(0)
-    const [acc, setAcc] = useState([])
-    const user = JSON.parse(localStorage.getItem("userAccount"))
-    if (!user || user.role !== 'Admin') {
-        alert("Bạn không có quyền truy cập trang này")
-        navigate('/homepage')
+  const [totalAcc, setTotalAcc] = useState(0);
+  const [totalAccActive, setTotalAccActive] = useState(0);
+  const [totalAccInactive, setTotalAccInactive] = useState(0);
+  const [acc, setAcc] = useState([]);
+  const user = JSON.parse(localStorage.getItem("userAccount"));
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user || user.role !== "Admin") {
+      alert("Bạn không có quyền truy cập trang này");
+      navigate("/homepage");
     }
-    const navigate = useNavigate()
-    useEffect(() => {
-
-
-        axios.get('http://localhost:9999/users?_sort=createdAt&_order=desc&_limit=5')
-            .then(result => setAcc(result.data))
-            .catch(err => console.error(err))
-    }, [])
-    useEffect(() => {
-        axios.get('http://localhost:9999/users')
-            .then(result => {
-                const userList = result.data
-                setTotalAcc(userList.length)
-                const userAcive = userList.filter(u => u.status === 'active')
-                setTotalAccActive(userAcive.length)
-
-                const userInactive = userList.filter(u => u.status === 'inactive')
-                setTotalAccInactive(userInactive.length)
-            })
-            .catch(err => console.error(err))
-    }, [acc])
-
-    const handleLock = (id) => {
-        let setingUser = acc.find(u => u.id === id)
-        setingUser.status == "active" ? (setingUser = { ...setingUser, status: "inactive" }) : (setingUser = { ...setingUser, status: "active" })
-        axios.patch(`http://localhost:9999/users/${id}`, setingUser)
-            .then(res => {
-                alert("Change successfuly")
-                navigate("/admin/viewUsers")
-            }
-            )
-            .catch(err => console.error(err));
-        let newUserView = acc.filter(u => u.id != id)
-        setAcc([...newUserView, setingUser])
-
+  }, [user, navigate]);
+  useEffect(() => {
+    const fetchAccounts = async () => {
+      try {
+        const res = await axios.get("http://localhost:9999/users?_sort=createdAt&_order=desc&_limit=5");
+        setAcc(res.data);
+      } catch (err) {
+        console.error("Lỗi tải danh sách tài khoản:", err);
+      }
     };
+    fetchAccounts();
+  }, []);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await axios.get("http://localhost:9999/users");
+        const userList = res.data;
+        setTotalAcc(userList.length);
+        const userActive = userList.filter((u) => u.status === "active" || u.role === "Admin");
+        setTotalAccActive(userActive.length);
+        const userInactive = userList.filter((u) => u.status === "inactive" && u.role !== "Admin");
+        setTotalAccInactive(userInactive.length);
+      } catch (err) {
+        console.error("Lỗi tải thống kê:", err);
+      }
+    };
+    fetchStats();
+  }, []);
+
+  const handleLock = async (id) => {
+    const targetUser = acc.find((u) => u.id === id);
+    if (targetUser?.role === "Admin") {
+      alert("Không thể khóa tài khoản Admin!");
+      return;
+    }
+    if (!window.confirm("Bạn có chắc muốn thay đổi trạng thái tài khoản này?")) {
+      return;
+    }
+    const updatedUser = {
+      ...targetUser,
+      status: targetUser.status === "active" ? "inactive" : "active"
+    };
+    try {
+      await axios.patch(`http://localhost:9999/users/${id}`, updatedUser);
+      alert("Cập nhật thành công");
+      setAcc((prev) => prev.map((u) => (u.id === id ? updatedUser : u)));
+    } catch (err) {
+      console.error(err);
+      alert("Lỗi cập nhật tài khoản");
+    }
+  };
 
     return (
         <div className="dashboard-box p-4">
             <Row className="stats-row">
-                <h3 className="dashboard-title">
-                    Tổng quan hệ thống
-                </h3>
+        <h3 className="dashboard-title">Tổng quan hệ thống</h3>
 
                 <Col md={4} className="mb-4">
                     <div className="stat-card primary">
@@ -109,33 +126,47 @@ export default function Dashboard() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {acc?.map((a, i) =>
+                {acc?.map((a, i) => (
                                     <tr key={i}>
                                         <td>{a.email}</td>
                                         <td>{a.role}</td>
-                                        <td>{new Date(a.createdAt).toLocaleTimeString()} {new Date(a.createdAt).toLocaleDateString()}</td>
-                                        <td>{a.status === 'active' ? "Hoạt động" : "Không hoạt động"}</td>
+                    <td>
+                      {new Date(a.createdAt).toLocaleTimeString()}{" "}
+                      {new Date(a.createdAt).toLocaleDateString()}
+                    </td>
+                    <td>
+                      {a.status === "active" || a.role === "Admin" ? "Hoạt động" : "Bị khóa"}
+                    </td>
                                         <td className="action-table-button">
-                                            <Link to={`/profile/id/${a.id}/isAuthor/${false}`} className="action-link">
+                      <Link
+                        to={`/profile/id/${a.id}/isAuthor/${false}`}
+                        className="action-link"
+                      >
                                                 <i className="bi bi-eye"></i> Xem
                                             </Link>
-                                            <button
-                                                className={`action-link ban-button ${a.status === 'inactive' ? 'unban-button' : ''}`}
-                                                onClick={() => handleLock(a.id)}
-                                            >
-                                                <i className={`bi ${a.status === 'inactive' ? 'bi-unlock' : 'bi-ban'}`}></i>
-                                                {a.status === 'inactive' ? 'Mở khóa' : 'Khóa'}
-                                            </button>
+                                                {a.role !== "Admin" && (
+                                                <button
+                        className={`action-link ban-button ${
+                          a.status === "inactive" ? "unban-button" : ""
+                        }`}
+                                                    onClick={() => handleLock(a.id)}
+                                                >
+                        <i
+                          className={`bi ${
+                            a.status === "inactive" ? "bi-unlock" : "bi-ban"
+                          }`}
+                        ></i>
+                        {a.status === "inactive" ? "Mở khóa" : "Khóa"}
+                                                </button>
+                                                )}
                                         </td>
                                     </tr>
-                                )}
-
+                ))}
                             </tbody>
                         </Table>
                     </div>
-
                 </Col>
             </Row>
         </div>
-    )
+  );
 }
