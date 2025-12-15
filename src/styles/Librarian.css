@@ -91,7 +91,10 @@
 
 .book-actions {
     display: flex;
-    gap: 10px;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
 }
 
 .book-action {
@@ -134,10 +137,14 @@
 }
 
 .book-status {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: inline-block;
+    text-align: center;
     border-radius: 10px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    min-width: 70px;
+    line-height: 1.5;
 }
 
 .book-status.active {
@@ -177,6 +184,36 @@
     height: fit-content;
 }
 
+.table-container td,
+.table-container th {
+    vertical-align: middle;
+    padding: 12px 8px;
+}
+
+.table-container td {
+    height: 90px;
+}
+
+.table-container td:nth-child(2) {
+    text-align: center;
+    padding: 8px;
+}
+
+.table-container td:nth-child(6) {
+    text-align: center;
+    padding: 8px;
+}
+
+.table-container td:nth-child(7) {
+    text-align: center;
+    padding: 8px;
+}
+
+.table-container td.book-actions {
+    padding: 8px !important;
+    vertical-align: middle !important;
+}
+
 .add-book-button{
     width: fit-content;
 }
@@ -207,4 +244,31 @@
 
 .book-selector.selected{
     background-color: #369FF3;
+}
+
+/* Book list thumbnail styles */
+.book-list-thumbnail {
+    width: 50px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #E0E0E0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 auto;
+}
+
+.book-list-no-image {
+    width: 50px;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F5F5F5;
+    border-radius: 4px;
+    border: 1px solid #E0E0E0;
+    font-size: 0.7rem;
+    color: #999;
+    text-align: center;
+    margin: 0 auto;
 }

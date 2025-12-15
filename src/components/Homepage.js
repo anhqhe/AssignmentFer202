@@ -54,7 +54,7 @@ export default function Homepage() {
             filterSubs = filterSubs.filter(s => !chosen.some(c => c.id === s.id));
             setSubjects([...chosen, ...filterSubs]);
         } else { setSubjects(subTag) };
-    }, [subSearch, subTag])
+    }, [subSearch, subTag, selectedSub])
 
     useEffect(() => {
         if (!allBooks || !copies) return;
@@ -101,7 +101,7 @@ export default function Homepage() {
         const paginatedBooks = filteredBooks.slice(startIndex, startIndex + limit);
         setDisplayBooks(paginatedBooks);
 
-    }, [search, selectedSub, avail, allBooks, copies, currPage]);
+    }, [search, selectedSub, avail, allBooks, copies, currPage, limit]);
 
     const getStatus = (bId) => {
         let total = 0;
@@ -177,7 +177,7 @@ export default function Homepage() {
                             return (
                                 <div key={b.id} className='col-12 col-md-6 col-lg-4 col-xl-3'>
                                     <div className='book-card card h-100'>
-                                        <div className="book-card-image card-img-top">
+                                        <div className="book-card-image-container">
                                             <img className='book-card-image' src={b.image} alt={b.title}></img>
                                         </div>
 

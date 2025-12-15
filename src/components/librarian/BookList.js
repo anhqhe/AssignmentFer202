@@ -82,7 +82,7 @@ export default function BookList() {
         const paginatedBooks = filteredBooks.slice(startIndex, startIndex + limit);
         setDisplayBooks(paginatedBooks);
 
-    }, [search, selectedSub, avail, allBooks, copies, currPage]);
+    }, [search, selectedSub, avail, allBooks, copies, currPage, limit]);
 
     const getStatus = (bId) => {
         let total = 0;
@@ -147,10 +147,11 @@ export default function BookList() {
 
             <Button onClick={()=>navigate('/librarian/book/add')} className="btn btn-success add-book-button"><i className="fa-solid fa-plus"></i> Add New Book</Button>
 
-            <Table hover striped className="table-container">
+            <Table hover className="table-container">
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Cover</th>
                         <th>Title</th>
                         <th>Author</th>
                         <th>ISBN</th>
@@ -165,9 +166,20 @@ export default function BookList() {
                         return (
                             <tr key={index}>
                                 <td className={`book-list-item ${status.available ? 'available' : 'unavailable'}`}>{b.id}</td>
+                                <td>
+                                    {b.image ? (
+                                        <img 
+                                            src={b.image} 
+                                            alt={b.title} 
+                                            className="book-list-thumbnail"
+                                        />
+                                    ) : (
+                                        <div className="book-list-no-image">No Image</div>
+                                    )}
+                                </td>
                                 <td>{b.title}</td>
                                 <td>{b.author}</td>
-                                <td>{b.isbn ? b.isbn : 'Not Available'}</td>
+                                <td>{b.isbn ? b.isbn : 'N/A'}</td>
                                 <td>
                                     <div className={`book-status ${b.hidden ? 'hidden' : 'active'}`}>
                                         {b.hidden ? 'Hidden' : 'Active'}
