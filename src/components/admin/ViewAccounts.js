@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Dashboard.css";
 import bcrypt from "bcryptjs";
-import emailjs from "emailjs-com";
 import { Container, Form, FormSelect, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
@@ -14,111 +13,143 @@ export default function ViewAccounts() {
   const [userView, setUserView] = useState([]);
   const user = JSON.parse(localStorage.getItem("userAccount"));
   const navigate = useNavigate();
-  if (!user || user.role !== "Admin") {
-    alert("Bạn không có quyền truy cập trang này");
-    navigate("/homepage");
-  }
-  const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
-  const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
-  const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
 
+  // Kiểm tra quyền truy cập Admin
   useEffect(() => {
-    axios
-      .get("http://localhost:9999/users")
-      .then((res) => {
+    if (!user || user.role !== "Admin") {
+      alert("Bạn không có quyền truy cập trang này");
+      navigate("/homepage");
+    }
+  }, [user, navigate]);
+
+  // Fetch danh sách tài khoản
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await axios.get("http://localhost:9999/users");
         setUsers(res.data);
         setUserView(res.data);
-      })
-      .catch((err) => console.error(err));
+      } catch (err) {
+        console.error("Lỗi fetch danh sách tài khoản:", err);
+        alert("Lỗi tải danh sách tài khoản. Vui lòng thử lại!");
+      }
+    };
+    fetchUsers();
   }, []);
 
-  const handleLock = (id) => {
+  // Khóa/Mở khóa tài khoản
+  const handleLock = async (id) => {
+    // Chặn khóa tài khoản Admin
+    const targetUser = users.find((u) => u.id === id);
+    if (targetUser?.role === "Admin") {
+      alert("Không thể khóa tài khoản Admin!");
+      return;
+    }
+
     if (
-      !window.confirm("Do you want to change this account’s access status?")
+      !window.confirm(
+        "Bạn có chắc chắn muốn thay đổi trạng thái tài khoản này?"
+      )
     ) {
       return;
     }
-    let setingUser = users.find((u) => u.id === id);
-    setingUser.status == "active"
-      ? (setingUser = { ...setingUser, status: "inactive" })
-      : (setingUser = { ...setingUser, status: "active" });
-    axios
-      .patch(`http://localhost:9999/users/${id}`, setingUser)
-      .then((res) => alert("Change successfuly"))
-      .catch((err) => console.error(err));
-    let newUserView = users.filter((u) => u.id != id);
-    setUsers([...newUserView, setingUser]);
-    setUserView([...newUserView, setingUser]);
+
+    try {
+      // Tạo đối tượng user mới với status đảo ngược
+      const updatedUser = {
+        ...targetUser,
+        status: targetUser.status === "active" ? "inactive" : "active",
+      };
+
+      // PATCH lên server
+      await axios.patch(`http://localhost:9999/users/${id}`, updatedUser);
+
+      // Cập nhật state users và userView
+      setUsers((prevUsers) =>
+        prevUsers.map((u) => (u.id === id ? updatedUser : u))
+      );
+
+      alert(
+        `${
+          updatedUser.status === "active" ? "Mở khóa" : "Khóa"
+        } tài khoản thành công!`
+      );
+    } catch (err) {
+      console.error("Lỗi thay đổi trạng thái:", err);
+      alert("Lỗi thay đổi trạng thái tài khoản. Vui lòng thử lại!");
+    }
   };
 
-  useEffect(() => {
-    let newUserView = [...users];
+  // Reset mật khẩu
+  const handleResetPass = async (e, targetUser) => {
+    e.preventDefault();
 
+    if (
+      !window.confirm(
+        `Bạn có chắc chắn muốn reset mật khẩu cho tài khoản ${targetUser.email}?`
+      )
+    ) {
+      return;
+    }
+
+    try {
+      const defaultPass = "user@123";
+      const randomHashPass = bcrypt.genSaltSync(10);
+      const hashPass = bcrypt.hashSync(defaultPass, randomHashPass);
+
+      // PATCH lên server
+      await axios.patch(`http://localhost:9999/users/${targetUser.id}`, {
+        ...targetUser,
+        password: hashPass,
+      });
+
+      // Cập nhật state
+      setUsers((prevUsers) =>
+        prevUsers.map((u) =>
+          u.id === targetUser.id ? { ...u, password: hashPass } : u
+        )
+      );
+
+      alert(
+        `Reset mật khẩu thành công!\n\nThông tin:\nEmail: ${targetUser.email}\nMật khẩu mới: ${defaultPass}\n\nVui lòng thông báo cho người dùng để đăng nhập lại.`
+      );
+    } catch (err) {
+      console.error("Lỗi reset mật khẩu:", err);
+      alert("Lỗi reset mật khẩu. Vui lòng thử lại!");
+    }
+  };
+
+  // Lọc và sắp xếp dữ liệu
+  useEffect(() => {
+    let filtered = [...users];
+
+    // Tìm kiếm theo tên, ID hoặc email
     if (searchTerm.trim() !== "") {
-      newUserView = newUserView.filter(
+      filtered = filtered.filter(
         (u) =>
-          u.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          u.id.toLowerCase().includes(searchTerm.toLowerCase())
+          u.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          u.id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          u.email?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
+    // Lọc theo role
     if (roleFilter !== "all") {
-      newUserView = newUserView.filter((u) => u.role === roleFilter);
+      filtered = filtered.filter((u) => u.role === roleFilter);
     }
 
+    // Sắp xếp theo trạng thái
     if (statusSort !== "none") {
-      newUserView = newUserView.sort((a, b) => {
+      filtered = filtered.sort((a, b) => {
         return statusSort === "asc"
           ? a.status.localeCompare(b.status)
           : b.status.localeCompare(a.status);
       });
     }
 
-    setUserView(newUserView);
+    setUserView(filtered);
   }, [searchTerm, roleFilter, statusSort, users]);
 
-  const handelResetPass = (e, user) => {
-    e.preventDefault();
-    const defaultPass = "user@123";
-    const randomHashPass = bcrypt.genSaltSync(10);
-    const hashPass = bcrypt.hashSync(defaultPass, randomHashPass);
-
-    axios
-      .patch(`http://localhost:9999/users/${user.id}`, {
-        ...user,
-        password: hashPass,
-      })
-      .then((res) => {
-        console.log(res);
-        sendMail(user, defaultPass);
-      })
-      .catch((res) => {
-        console.log("faile to update", res);
-      });
-  };
-
-  const sendMail = (user, newPass) => {
-    emailjs
-      .send(
-        serviceId,
-        templateId,
-        {
-          from_name: "System Bot",
-          to_email: user?.email,
-          message: `Xin chào ${
-            user?.username || "bạn"
-          }, đây là mật khẩu mặc định : ${newPass}. Bạn có thể Sử dung nó để truy câp lại tài khoản của mình và đổi lại mật khẩu. Vui lòng không chia sẻ mã này cho bất kỳ ai khác.`,
-        },
-        publicKey
-      )
-      .then((result) => {
-        alert(" Gửi thành công!");
-      })
-      .catch((error) => {
-        alert("Lỗi gửi mail!");
-        console.error("FAILED:", error);
-      });
-  };
   return (
     <Container className="user-table-container" fluid>
       <h2 className="dashboard-title">Danh sách người dùng</h2>
@@ -126,7 +157,7 @@ export default function ViewAccounts() {
       <Form className="filters">
         <Form.Control
           type="text"
-          placeholder="Tìm theo tên hoặc ID..."
+          placeholder="Tìm theo tên, ID hoặc Email..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -162,24 +193,36 @@ export default function ViewAccounts() {
           </tr>
         </thead>
         <tbody>
-          {userView?.map((user) => (
-            <tr key={user.id}>
+          {userView?.map((u) => (
+            <tr key={u.id}>
               <td>
                 <div className="user-info">
                   <img
-                    src={user.avatar}
-                    alt={user.username}
+                    src={u.avatar}
+                    alt={u.username}
                     className="user-avatar"
                   />
-                  <span className="user-name">{user.username}</span>
+                  <span className="user-name">{u.username}</span>
                 </div>
               </td>
-              <td>{user.id}</td>
-              <td>{user.email}</td>
-              <td>{user.role}</td>
-              <td>{new Date(user.createdAt).toLocaleString()}</td>
+              <td>{u.id}</td>
+              <td>{u.email}</td>
+              <td>{u.role}</td>
+              <td>{new Date(u.createdAt).toLocaleString()}</td>
               <td>
-                {user.status === "active" ? (
+                {u.role === "Admin" ? (
+                  <>
+                    <i
+                      className="bi bi-circle-fill"
+                      style={{
+                        color: "green",
+                        fontSize: "10px",
+                        marginRight: "5px",
+                      }}
+                    ></i>
+                    Hoạt động
+                  </>
+                ) : u.status === "active" ? (
                   <>
                     <i
                       className="bi bi-circle-fill"
@@ -210,27 +253,31 @@ export default function ViewAccounts() {
                 <button
                   className="view-btn"
                   onClick={() =>
-                    navigate(`/profile/id/${user.id}/isAuthor/${false}`)
+                    navigate(`/profile/id/${u.id}/isAuthor/${false}`)
                   }
                 >
-                  Xem
+                  <i className="bi bi-eye"></i> Xem
                 </button>
-                <button
-                  className={`action-link ban-button ${
-                    user.status === "inactive" ? "unban-button" : ""
-                  }`}
-                  onClick={() => handleLock(user.id)}
-                >
-                  <i
-                    className={`bi ${
-                      user.status === "inactive" ? "bi-unlock" : "bi-ban"
+
+                {u.role !== "Admin" && (
+                  <button
+                    className={`action-link ban-button ${
+                      u.status === "inactive" ? "unban-button" : ""
                     }`}
-                  ></i>
-                  {user.status === "active" ? "Khóa" : "Mở khóa"}
-                </button>
+                    onClick={() => handleLock(u.id)}
+                  >
+                    <i
+                      className={`bi ${
+                        u.status === "inactive" ? "bi-unlock" : "bi-ban"
+                      }`}
+                    ></i>
+                    {u.status === "active" ? "Khóa" : "Mở khóa"}
+                  </button>
+                )}
+
                 <button
                   className="action-link reset-pasword-btn"
-                  onClick={(e) => handelResetPass(e, user)}
+                  onClick={(e) => handleResetPass(e, u)}
                 >
                   <i className="bi bi-arrow-repeat"></i>
                   Reset Password
