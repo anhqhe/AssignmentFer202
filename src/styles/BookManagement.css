@@ -62,8 +62,23 @@
     max-height: 300px;
 }
 
+/* Book image preview container with fixed aspect ratio */
+.book-image-preview {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    border: 2px solid #E0E0E0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 .book-form-display-image {
     width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3; /* Fixed 2:3 aspect ratio for book covers */
+    object-fit: cover;
+    display: block;
 }
 
 .form-buttons button {
@@ -110,7 +125,7 @@
 
 .import-button {
     min-width: fit-content;
-    width: 120px;
+    width: 150px;
     border: none;
     background-color: #496390;
     color: white;
@@ -118,8 +133,14 @@
     transition: background-color 0.3s ease;
 }
 
-.import-button:hover {
+.import-button:hover:not(:disabled) {
     background-color: #2C3E50;
+}
+
+.import-button:disabled {
+    background-color: #95A5A6;
+    cursor: not-allowed;
+    opacity: 0.6;
 }
 
 .toggle-slider {
