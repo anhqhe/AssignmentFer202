@@ -19,6 +19,7 @@ import BookList from "./components/librarian/BookList.js";
 import AddBook from "./components/librarian/AddBook.js";
 import CopyList from "./components/librarian/CopyList.js";
 import AddCopy from "./components/librarian/AddCopy.js";
+import LibrarianDashboard from "./components/librarian/DashBoard.js";
 
 function Layout({ children }) {
   const location = useLocation();
@@ -66,7 +67,7 @@ export default function App() {
           </Route>
 
           <Route path="/librarian" element={<ProtectedRoute><LibDashboard /></ProtectedRoute>}>
-            <Route path="dashboard" element={<BookList />} />
+            <Route path="dashboard" element={<LibrarianDashboard />} />
             <Route path="book_list" element={<BookList />} />
             <Route path="book/edit/:bId" element={<EditBook />} />
             <Route path="book/add" element={<AddBook />} />

@@ -583,14 +583,14 @@
       "id": "101",
       "bookId": "1",
       "condition": "Good",
-      "isBorrowed": false,
+      "isBorrowed": true,
       "createTime": 1756222276042
     },
     {
       "id": "102",
       "bookId": "1",
       "condition": "Good",
-      "isBorrowed": true,
+      "isBorrowed": false,
       "createTime": 1756222277042
     },
     {
@@ -631,7 +631,7 @@
     {
       "id": "108",
       "bookId": "4",
-      "condition": "Good",
+      "condition": "Lost",
       "isBorrowed": true,
       "createTime": 1756222283042
     },
@@ -645,7 +645,7 @@
     {
       "id": "110",
       "bookId": "5",
-      "condition": "Good",
+      "condition": "Damaged",
       "isBorrowed": false,
       "createTime": 1756222285042
     },
@@ -701,7 +701,7 @@
     {
       "id": "118",
       "bookId": "8",
-      "condition": "Good",
+      "condition": "Damaged",
       "isBorrowed": false,
       "createTime": 1756222293042
     },
@@ -729,7 +729,7 @@
     {
       "id": "122",
       "bookId": "10",
-      "condition": "Good",
+      "condition": "Lost",
       "isBorrowed": false,
       "createTime": 1756222297042
     },
@@ -821,14 +821,14 @@
       "id": "1219",
       "bookId": "lgKNe0V",
       "condition": "Good",
-      "isBorrowed": false,
+      "isBorrowed": true,
       "createTime": 1756257155496
     },
     {
       "id": "d97e",
       "bookId": "lgKNe0V",
       "condition": "Good",
-      "isBorrowed": false,
+      "isBorrowed": true,
       "createTime": 1756257155496
     },
     {
@@ -842,7 +842,7 @@
       "id": "11d9",
       "bookId": "lgKNe0V",
       "condition": "Good",
-      "isBorrowed": false,
+      "isBorrowed": true,
       "createTime": 1756257155496
     },
     {
@@ -944,12 +944,46 @@
       "createTime": 1756266549078
     },
     {
-      "condition": "Damaged",
-      "id": "4500"
+      "id": "e222",
+      "bookId": "4",
+      "condition": "Good",
+      "isBorrowed": false,
+      "createTime": 1765819954441
     },
     {
-      "condition": "Damaged",
-      "id": "3b64"
+      "id": "35e8",
+      "bookId": "4",
+      "condition": "Good",
+      "isBorrowed": false,
+      "createTime": 1765819954441
+    },
+    {
+      "id": "f3c0",
+      "bookId": "4",
+      "condition": "Good",
+      "isBorrowed": false,
+      "createTime": 1765819954441
+    },
+    {
+      "id": "6ddf",
+      "bookId": "lgKNe0V",
+      "condition": "Good",
+      "isBorrowed": true,
+      "createTime": 1765820202676
+    },
+    {
+      "id": "9e65",
+      "bookId": "lgKNe0V",
+      "condition": "Good",
+      "isBorrowed": false,
+      "createTime": 1765820202676
+    },
+    {
+      "id": "1688",
+      "bookId": "lgKNe0V",
+      "condition": "Good",
+      "isBorrowed": false,
+      "createTime": 1765820202676
     }
   ],
   "borrowHistory": [
@@ -959,7 +993,7 @@
       "copyId": "102",
       "borrowDate": "2025-08-01",
       "dueDate": "2025-08-20",
-      "returnDate": null
+      "returnDate": "2025-12-15"
     },
     {
       "id": "2",
@@ -975,7 +1009,7 @@
       "copyId": "103",
       "borrowDate": "2025-08-27",
       "dueDate": "2025-09-08",
-      "returnDate": null
+      "returnDate": "2025-12-15"
     },
     {
       "id": "1756218662712",
@@ -983,7 +1017,7 @@
       "copyId": "117",
       "borrowDate": "2025-08-26",
       "dueDate": "2025-09-09",
-      "returnDate": null
+      "returnDate": "2025-12-15"
     },
     {
       "id": "1756219325878",
@@ -991,6 +1025,54 @@
       "copyId": "101",
       "borrowDate": "2025-08-26",
       "dueDate": "2025-09-09",
+      "returnDate": "2025-12-15"
+    },
+    {
+      "id": "bb66cccc-07f8-4c1f-a9f8-2c26dc2a42e8",
+      "studentId": "HE190024",
+      "copyId": "101",
+      "borrowDate": "2025-11-15",
+      "dueDate": "2025-11-29",
+      "returnDate": null
+    },
+    {
+      "id": "a1227797-6d5c-4885-8821-d9f088ff742c",
+      "studentId": "HE190024",
+      "copyId": "104",
+      "borrowDate": "2025-12-15",
+      "dueDate": "2025-12-29",
+      "returnDate": "2025-12-15"
+    },
+    {
+      "id": "1765819901717.855",
+      "studentId": "HE186977",
+      "copyId": "103",
+      "borrowDate": "2025-12-15",
+      "dueDate": "2026-01-14",
+      "returnDate": null
+    },
+    {
+      "id": "1765822289204.4758",
+      "studentId": "HE186977",
+      "copyId": "1219",
+      "borrowDate": "2025-12-15",
+      "dueDate": "2025-12-27",
+      "returnDate": null
+    },
+    {
+      "id": "1765822289389.9841",
+      "studentId": "HE186977",
+      "copyId": "e828",
+      "borrowDate": "2025-12-15",
+      "dueDate": "2025-12-27",
+      "returnDate": null
+    },
+    {
+      "id": "1765822289536.7427",
+      "studentId": "HE186977",
+      "copyId": "11d9",
+      "borrowDate": "2025-12-15",
+      "dueDate": "2025-12-27",
       "returnDate": null
     }
   ],
@@ -1010,6 +1092,22 @@
       "amount": 0,
       "status": "none",
       "reason": "on time"
+    },
+    {
+      "id": "1765817528925",
+      "borrowHistoryId": "1756218662712",
+      "studentId": "HE183772",
+      "amount": 490000,
+      "status": "unpaid",
+      "reason": "overdue"
+    },
+    {
+      "id": "1765819768901",
+      "borrowHistoryId": "1",
+      "studentId": "HE190024",
+      "amount": 590000,
+      "status": "unpaid",
+      "reason": "overdue"
     }
   ]
 }

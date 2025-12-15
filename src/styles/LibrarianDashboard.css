@@ -1,0 +1,131 @@
+/* ===== Root ===== */
+.librarian-dashboard {
+    background-color: #f8f9fb;
+    min-height: 100vh;
+    font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+/* ===== Header ===== */
+.librarian-dashboard h3 {
+    font-weight: 600;
+}
+
+.librarian-dashboard p {
+    margin-bottom: 0;
+}
+
+/* ===== Card ===== */
+.librarian-dashboard .card {
+    border-radius: 14px;
+    border: none;
+    transition: all 0.25s ease;
+}
+
+.librarian-dashboard .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== Card Title ===== */
+.librarian-dashboard .card h6 {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 6px;
+}
+
+.librarian-dashboard .card h2,
+.librarian-dashboard .card h3,
+.librarian-dashboard .card h4 {
+    font-weight: 600;
+}
+
+/* ===== Statistic Cards ===== */
+.stat-card {
+    padding: 4px;
+}
+
+.stat-card h2 {
+    font-size: 2rem;
+}
+
+/* ===== Progress Bar ===== */
+.progress {
+    height: 8px;
+    border-radius: 6px;
+    margin-top: 8px;
+}
+
+/* ===== Tables ===== */
+.librarian-dashboard table {
+    margin-top: 10px;
+}
+
+.librarian-dashboard thead th {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: #6c757d;
+    border-bottom: none;
+}
+
+.librarian-dashboard tbody tr {
+    transition: background 0.2s ease;
+}
+
+.librarian-dashboard tbody tr:hover {
+    background-color: #f1f3f5;
+}
+
+/* ===== Overdue Highlight ===== */
+.overdue-row {
+    background-color: #fff5f5;
+}
+
+.overdue-row td {
+    color: #c92a2a;
+}
+
+/* ===== Badges ===== */
+.librarian-dashboard .badge {
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+/* ===== Financial Box ===== */
+.finance-box h4 {
+    font-weight: 700;
+}
+
+.finance-box p {
+    font-size: 0.95rem;
+}
+
+/* ===== Clickable Link ===== */
+.dashboard-link {
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.dashboard-link:hover {
+    text-decoration: underline;
+}
+
+/* ===== Copy Condition ===== */
+.condition-badge {
+    font-size: 1rem;
+    padding: 14px;
+    text-align: center;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .librarian-dashboard {
+        padding: 1rem;
+    }
+
+    .stat-card h2 {
+        font-size: 1.6rem;
+    }
+}
