@@ -50,7 +50,7 @@ export default function EditBook() {
             filterSubs = filterSubs.filter(s => !subjects.includes(s.id))
             setDisplaySubs([...chosen, ...filterSubs]);
         } else { setDisplaySubs(allSubs) };
-    }, [subSearch])
+    }, [subSearch, allSubs, subjects])
 
     const addSubject = (sId) => {
         if (!subjects.includes(sId)) {
@@ -77,7 +77,7 @@ export default function EditBook() {
     }
 
     const handleEdit = () => {
-        if (subjects.length == 0 || title.length == 0 || author.length == 0 || image.length == 0) {
+        if (subjects.length === 0 || title.length === 0 || author.length === 0 || image.length === 0) {
             alert('Please fill all required fields.')
         } else {
             const newBook = {
