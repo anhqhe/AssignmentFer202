@@ -47,12 +47,16 @@ export default function AddBook() {
 
     const addSubject = (sId) => {
         if (!subjects.includes(sId)) {
-            setSubjects(prev => [...prev, sId]);
+            const newSubjects = [...subjects, sId];
+            setSubjects(newSubjects);
+            validateField('subjects', newSubjects);
         }
     };
 
     const removeSubject = (sId) => {
-        setSubjects(prev => prev.filter(id => id !== sId));
+        const newSubjects = subjects.filter(id => id !== sId);
+        setSubjects(newSubjects);
+        validateField('subjects', newSubjects);
     };
 
     const selectedSubject = (sId) => {
@@ -75,14 +79,108 @@ export default function AddBook() {
                 return;
             }
 
-            setErrors(prev => ({ ...prev, image: '' }));
+            // Clear error and set image
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors.image;
+                return newErrors;
+            });
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImage(reader.result);
+                validateField('image', reader.result);
             };
             reader.readAsDataURL(imageFile);
+        } else {
+            // If no file selected, validate that image exists
+            validateField('image', image);
         }
     }
+
+    // Validate individual field
+    const validateField = (fieldName, value) => {
+        const newErrors = { ...errors };
+        
+        switch (fieldName) {
+            case 'title':
+                if (!value.trim()) {
+                    newErrors.title = 'Title is required';
+                } else if (value.trim().length < 1 || value.trim().length > 30) {
+                    newErrors.title = 'Title must be between 1 and 30 characters';
+                } else {
+                    delete newErrors.title;
+                }
+                break;
+                
+            case 'author':
+                if (!value.trim()) {
+                    newErrors.author = 'Author is required';
+                } else if (value.trim().length < 1 || value.trim().length > 30) {
+                    newErrors.author = 'Author name must be between 1 and 30 characters';
+                } else {
+                    delete newErrors.author;
+                }
+                break;
+                
+            case 'isbn':
+                if (value && value.trim()) {
+                    const isbnClean = value.replace(/[-\s]/g, '');
+                    // ISBN-10: 10 digits, ISBN-13: 13 digits starting with 978 or 979
+                    if (!/^\d{10}$/.test(isbnClean) && !/^(978|979)\d{10}$/.test(isbnClean)) {
+                        newErrors.isbn = 'ISBN must be 10 digits or 13 digits (starting with 978 or 979)';
+                    } else {
+                        delete newErrors.isbn;
+                    }
+                } else {
+                    delete newErrors.isbn;
+                }
+                break;
+                
+            case 'olid':
+                if (value && value.trim()) {
+                    // OLID format: OL + digits + letter (e.g., OL7353617M)
+                    if (!/^OL\d+[A-Z]$/i.test(value.trim())) {
+                        newErrors.olid = 'OLID must be in format: OL + digits + letter (e.g., OL7353617M)';
+                    } else {
+                        delete newErrors.olid;
+                    }
+                } else {
+                    delete newErrors.olid;
+                }
+                break;
+                
+            case 'description':
+                if (!value || !value.trim()) {
+                    newErrors.description = 'Description is required';
+                } else if (value.trim().length < 1 || value.trim().length > 100) {
+                    newErrors.description = 'Description must be between 1 and 100 characters';
+                } else {
+                    delete newErrors.description;
+                }
+                break;
+                
+            case 'subjects':
+                if (value.length === 0) {
+                    newErrors.subjects = 'At least one category is required';
+                } else {
+                    delete newErrors.subjects;
+                }
+                break;
+                
+            case 'image':
+                if (!value) {
+                    newErrors.image = 'Cover image is required';
+                } else {
+                    delete newErrors.image;
+                }
+                break;
+                
+            default:
+                break;
+        }
+        
+        setErrors(newErrors);
+    };
 
     const validateForm = () => {
         const newErrors = {};
@@ -90,14 +188,14 @@ export default function AddBook() {
         // Required fields validation
         if (!title.trim()) {
             newErrors.title = 'Title is required';
-        } else if (title.trim().length < 1 || title.trim().length > 500) {
-            newErrors.title = 'Title must be between 1 and 500 characters';
+        } else if (title.trim().length < 1 || title.trim().length > 30) {
+            newErrors.title = 'Title must be between 1 and 30 characters';
         }
 
         if (!author.trim()) {
             newErrors.author = 'Author is required';
-        } else if (author.trim().length < 1 || author.trim().length > 300) {
-            newErrors.author = 'Author name must be between 1 and 300 characters';
+        } else if (author.trim().length < 1 || author.trim().length > 30) {
+            newErrors.author = 'Author name must be between 1 and 30 characters';
         }
 
         if (subjects.length === 0) {
@@ -111,30 +209,76 @@ export default function AddBook() {
         // Optional but must be valid if provided
         if (isbn && isbn.trim()) {
             const isbnClean = isbn.replace(/[-\s]/g, '');
-            if (!/^\d{10}(\d{3})?$/.test(isbnClean)) {
-                newErrors.isbn = 'ISBN must be 10 or 13 digits';
+            // ISBN-10: 10 digits, ISBN-13: 13 digits starting with 978 or 979
+            if (!/^\d{10}$/.test(isbnClean) && !/^(978|979)\d{10}$/.test(isbnClean)) {
+                newErrors.isbn = 'ISBN must be 10 digits or 13 digits (starting with 978 or 979)';
             }
         }
 
-        if (description && description.trim().length > 5000) {
-            newErrors.description = 'Description must be less than 5000 characters';
+        if (olid && olid.trim()) {
+            // OLID format: OL + digits + letter (e.g., OL7353617M)
+            if (!/^OL\d+[A-Z]$/i.test(olid.trim())) {
+                newErrors.olid = 'OLID must be in format: OL + digits + letter (e.g., OL7353617M)';
+            }
+        }
+
+        if (!description.trim()) {
+            newErrors.description = 'Description is required';
+        } else if (description.trim().length < 1 || description.trim().length > 100) {
+            newErrors.description = 'Description must be between 1 and 100 characters';
         }
 
         setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+        return { isValid: Object.keys(newErrors).length === 0, errors: newErrors };
     };
 
     const handleAdd = () => {
-        if (!validateForm()) {
-            alert('Please fix all validation errors before submitting.');
+        // Validate all fields before submit
+        const validation = validateForm();
+        if (!validation.isValid) {
+            // Scroll to first error field
+            setTimeout(() => {
+                const firstErrorField = Object.keys(validation.errors)[0];
+                if (firstErrorField) {
+                    // Find the input/textarea for this field
+                    let errorElement = null;
+                    if (firstErrorField === 'title') {
+                        errorElement = document.querySelector('.librarian-form-input input[value="' + title.replace(/"/g, '\\"') + '"]') || 
+                                      document.querySelectorAll('.librarian-form-input input')[0];
+                    } else if (firstErrorField === 'author') {
+                        const inputs = document.querySelectorAll('.librarian-form-input input');
+                        errorElement = inputs[1]; // Author is second input
+                    } else if (firstErrorField === 'isbn') {
+                        const inputs = document.querySelectorAll('.librarian-form-input input');
+                        errorElement = Array.from(inputs).find(input => input.placeholder && input.placeholder.includes('ISBN'));
+                    } else if (firstErrorField === 'olid') {
+                        const inputs = document.querySelectorAll('.librarian-form-input input');
+                        errorElement = Array.from(inputs).find(input => input.placeholder && input.placeholder.includes('OLID'));
+                    } else if (firstErrorField === 'description') {
+                        errorElement = document.querySelector('.librarian-form-input textarea');
+                    } else if (firstErrorField === 'subjects') {
+                        errorElement = document.querySelector('.subjects-container');
+                    } else if (firstErrorField === 'image') {
+                        errorElement = document.querySelector('.librarian-form-input input[type="file"]');
+                    }
+                    
+                    if (errorElement) {
+                        errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        if (errorElement.focus) {
+                            errorElement.focus();
+                        }
+                    }
+                }
+            }, 100);
             return;
         }
 
         // Generate next ID based on existing books
+        // Chỉ xem xét các ID là số nguyên dương hợp lệ (1, 2, 3, ...)
         const maxId = books.reduce((max, book) => {
             const bookId = parseInt(book.id);
-            // Only consider valid numeric IDs
-            if (!isNaN(bookId) && bookId > max) {
+            // Chỉ xem xét ID là số nguyên dương hợp lệ và không quá lớn (tránh ID lỗi)
+            if (!isNaN(bookId) && bookId > 0 && bookId < 10000 && bookId > max) {
                 return bookId;
             }
             return max;
@@ -259,15 +403,24 @@ export default function AddBook() {
             }
 
             setOLID(olidValue);
+            validateField('olid', olidValue);
+            
             if (isOLID) {
                 const foundIsbn = edition.isbn_13?.[0] || edition.isbn_10?.[0] || "";
                 setISBN(foundIsbn);
+                validateField('isbn', foundIsbn);
             } else {
                 setISBN(importCode);
+                validateField('isbn', importCode);
             }
 
-            const titleVal = edition.title || work?.title || "";
+            let titleVal = edition.title || work?.title || "";
+            // Truncate to 30 characters if too long
+            if (titleVal.length > 30) {
+                titleVal = titleVal.substring(0, 30);
+            }
             setTitle(titleVal);
+            validateField('title', titleVal);
 
             const rawDesc = edition.description ?? work?.description ?? "";
             let descVal = "";
@@ -276,7 +429,12 @@ export default function AddBook() {
             } else if (rawDesc?.value) {
                 descVal = rawDesc.value;
             }
+            // Truncate to 100 characters if too long
+            if (descVal.length > 100) {
+                descVal = descVal.substring(0, 100);
+            }
             setDescription(descVal);
+            validateField('description', descVal);
 
             const coverId = edition.covers?.[0] || work?.covers?.[0];
             let imageUrl = "";
@@ -294,14 +452,17 @@ export default function AddBook() {
                         const reader = new FileReader();
                         reader.onloadend = () => {
                             setImage(reader.result);
+                            validateField('image', reader.result);
                         };
                         reader.readAsDataURL(blob);
                     })
                     .catch(err => {
                         console.error("Error fetching image:", err);
+                        setErrors(prev => ({ ...prev, image: 'Failed to load image from URL' }));
                     });
             } else {
                 setImage("");
+                validateField('image', "");
             }
 
 
@@ -323,40 +484,112 @@ export default function AddBook() {
                 });
 
                 const names = (await Promise.all(namePromises)).filter(Boolean);
-                setAuthor(names.join(", "));
+                let authorVal = names.join(", ");
+                // Truncate to 30 characters if too long
+                if (authorVal.length > 30) {
+                    authorVal = authorVal.substring(0, 30);
+                }
+                setAuthor(authorVal);
+                validateField('author', authorVal);
             } else {
                 setAuthor("");
+                validateField('author', "");
             }
 
-            // Import subjects/categories
+            // Import subjects/categories - Cải thiện matching logic
             const openLibSubjects = work?.subjects || edition.subjects || [];
             if (openLibSubjects.length > 0 && allSubs.length > 0) {
-                // Match Open Library subjects with database subjects
                 const matchedSubjectIds = [];
                 
+                // Tạo mapping từ keywords đến subject IDs
+                const keywordMapping = {
+                    'computer': '1', 'programming': '1', 'software': '1', 'algorithm': '1', 'computing': '1',
+                    'literature': '2', 'fiction': '2', 'novel': '2', 'literary': '2',
+                    'mathematics': '3', 'math': '3', 'mathematical': '3', 'algebra': '3', 'calculus': '3',
+                    'science fiction': '4', 'sci-fi': '4', 'sf': '4',
+                    'fantasy': '5',
+                    'romance': '6',
+                    'mystery': '7', 'detective': '7',
+                    'horror': '8',
+                    'thriller': '9',
+                    'history': '10', 'historical': '10',
+                    'biography': '11', 'biographical': '11',
+                    'philosophy': '12', 'philosophical': '12',
+                    'psychology': '13', 'psychological': '13',
+                    'religion': '14', 'religious': '14',
+                    'politics': '15', 'political': '15',
+                    'economics': '16', 'economic': '16',
+                    'business': '17',
+                    'education': '18', 'educational': '18',
+                    'law': '19', 'legal': '19',
+                    'medicine': '20', 'medical': '20',
+                    'health': '21',
+                    'cooking': '22', 'cookbook': '22', 'culinary': '22',
+                    'art': '23', 'artistic': '23',
+                    'music': '24', 'musical': '24',
+                    'film': '25', 'cinema': '25',
+                    'photography': '26', 'photo': '26',
+                    'architecture': '27', 'architectural': '27',
+                    "children's": '28', 'children': '28', 'kids': '28',
+                    'young adult': '29', 'ya': '29',
+                    'travel': '30', 'traveling': '30',
+                    'science': '31', 'scientific': '31',
+                    'physics': '32', 'physical': '32',
+                    'chemistry': '33', 'chemical': '33',
+                    'biology': '34', 'biological': '34',
+                    'geography': '35', 'geographical': '35',
+                    'anthropology': '36', 'anthropological': '36',
+                    'sociology': '37', 'sociological': '37',
+                    'self-help': '38', 'self help': '38',
+                    'poetry': '39', 'poem': '39', 'poetic': '39',
+                    'drama': '40', 'dramatic': '40', 'play': '40'
+                };
+                
                 openLibSubjects.forEach(olSubject => {
-                    const normalizedOLSubject = olSubject.toLowerCase().trim();
-                    
-                    // Find matching subject in database
-                    const matchedSub = allSubs.find(dbSub => {
-                        const normalizedDBSubject = dbSub.name.toLowerCase().trim();
-                        // Exact match or contains
-                        return normalizedDBSubject === normalizedOLSubject || 
-                               normalizedDBSubject.includes(normalizedOLSubject) ||
-                               normalizedOLSubject.includes(normalizedDBSubject);
-                    });
-                    
-                    if (matchedSub && !matchedSubjectIds.includes(matchedSub.id)) {
-                        matchedSubjectIds.push(matchedSub.id);
+                    if (typeof olSubject === 'string') {
+                        const normalizedOLSubject = olSubject.toLowerCase().trim();
+                        
+                        // 1. Thử match bằng keyword mapping
+                        for (const [keyword, subjectId] of Object.entries(keywordMapping)) {
+                            if (normalizedOLSubject.includes(keyword) && !matchedSubjectIds.includes(subjectId)) {
+                                matchedSubjectIds.push(subjectId);
+                                break;
+                            }
+                        }
+                        
+                        // 2. Nếu chưa match, thử exact match hoặc contains với database subjects
+                        if (!matchedSubjectIds.some(id => {
+                            const dbSub = allSubs.find(s => s.id === id);
+                            return dbSub && normalizedOLSubject.includes(dbSub.name.toLowerCase().trim());
+                        })) {
+                            const matchedSub = allSubs.find(dbSub => {
+                                const normalizedDBSubject = dbSub.name.toLowerCase().trim();
+                                return normalizedDBSubject === normalizedOLSubject || 
+                                       normalizedDBSubject.includes(normalizedOLSubject) ||
+                                       normalizedOLSubject.includes(normalizedDBSubject);
+                            });
+                            
+                            if (matchedSub && !matchedSubjectIds.includes(matchedSub.id)) {
+                                matchedSubjectIds.push(matchedSub.id);
+                            }
+                        }
                     }
                 });
                 
                 if (matchedSubjectIds.length > 0) {
                     setSubjects(matchedSubjectIds);
-                    console.log("Auto-selected subjects:", matchedSubjectIds);
+                    validateField('subjects', matchedSubjectIds);
+                    console.log("✅ Auto-selected categories:", matchedSubjectIds.map(id => {
+                        const sub = allSubs.find(s => s.id === id);
+                        return sub ? sub.name : id;
+                    }));
                 } else {
-                    console.log("No matching subjects found. Available subjects from Open Library:", openLibSubjects.slice(0, 10));
+                    console.log("⚠️ No matching categories found. Open Library subjects:", openLibSubjects.slice(0, 10));
+                    validateField('subjects', []);
                 }
+            } else {
+                // Nếu không có subjects từ Open Library, vẫn validate
+                validateField('subjects', subjects);
             }
 
             console.log("Imported:", { titleVal, olidValue, imageUrl, subjects: openLibSubjects.slice(0, 10) });
@@ -396,46 +629,87 @@ export default function AddBook() {
                     <div className="mb-3">
                         <h3><i className="fa-solid fa-circle-info"></i> Basic Information</h3>
                         <div className="librarian-form-input">
-                            <div>Title <span className="text-danger">*</span></div>
+                            <div>Title <span className="text-danger">*</span> <small className="text-muted">(Maximum 30 characters)</small></div>
                             <input 
                                 value={title} 
-                                onChange={e => setTitle(e.target.value)} 
+                                onChange={e => {
+                                    setTitle(e.target.value);
+                                    validateField('title', e.target.value);
+                                }}
+                                onBlur={() => validateField('title', title)}
                                 className={`form-control ${errors.title ? 'is-invalid' : ''}`}
-                                maxLength="500"
+                                maxLength="30"
+                                placeholder="Enter book title (max 30 characters)"
                             />
+                            <small className="text-muted d-block mt-1">{title.length}/30 characters</small>
                             {errors.title && <div className="text-danger small mt-1">{errors.title}</div>}
                         </div>
                         <div className="librarian-form-input">
-                            <div>Author <span className="text-danger">*</span></div>
+                            <div>Author <span className="text-danger">*</span> <small className="text-muted">(Maximum 30 characters)</small></div>
                             <input 
                                 value={author} 
-                                onChange={e => setAuthor(e.target.value)} 
+                                onChange={e => {
+                                    setAuthor(e.target.value);
+                                    validateField('author', e.target.value);
+                                }}
+                                onBlur={() => validateField('author', author)}
                                 className={`form-control ${errors.author ? 'is-invalid' : ''}`}
-                                maxLength="300"
+                                maxLength="30"
+                                placeholder="Enter author name (max 30 characters)"
                             />
+                            <small className="text-muted d-block mt-1">{author.length}/30 characters</small>
                             {errors.author && <div className="text-danger small mt-1">{errors.author}</div>}
                         </div>
                         <div className="librarian-form-input">
-                            <div>Description</div>
+                            <div>Description <span className="text-danger">*</span> <small className="text-muted">(Maximum 100 characters)</small></div>
                             <textarea 
                                 value={description} 
-                                onChange={e => setDescription(e.target.value)} 
+                                onChange={e => {
+                                    setDescription(e.target.value);
+                                    validateField('description', e.target.value);
+                                }}
+                                onBlur={() => validateField('description', description)}
                                 className={`form-control ${errors.description ? 'is-invalid' : ''}`}
                                 rows="5"
-                                maxLength="5000"
+                                maxLength="100"
+                                placeholder="Enter book description (max 100 characters)"
                             />
+                            <small className="text-muted d-block mt-1">{description.length}/100 characters</small>
                             {errors.description && <div className="text-danger small mt-1">{errors.description}</div>}
-                            <small className="text-muted">{description.length}/5000 characters</small>
                         </div>
                     </div>
                     <div>
                         <h3><i className="fa-solid fa-tags"></i> Categories <span className="text-danger">*</span></h3>
                         <div className="d-flex flex-column">
+                            {/* Hiển thị các categories đã chọn */}
+                            {subjects.length > 0 && (
+                                <div className="mb-3">
+                                    <div className="text-muted small mb-2">Selected Categories ({subjects.length}):</div>
+                                    <div className="d-flex flex-wrap gap-2 mb-3">
+                                        {subjects.map(subjectId => {
+                                            const subject = allSubs.find(s => s.id === subjectId);
+                                            if (!subject) return null;
+                                            return (
+                                                <span 
+                                                    key={subjectId}
+                                                    className="badge bg-primary d-flex align-items-center gap-2 px-3 py-2"
+                                                    style={{ fontSize: '0.9rem', cursor: 'pointer' }}
+                                                    onClick={() => removeSubject(subjectId)}
+                                                    title="Click to remove"
+                                                >
+                                                    {subject.name}
+                                                    <i className="fa-solid fa-times" style={{ fontSize: '0.8rem' }}></i>
+                                                </span>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            )}
                             <input 
                                 onChange={e => setSubSearch(e.target.value)} 
                                 value={subSearch} 
                                 className="form-control mb-3" 
-                                placeholder="Search subject..."
+                                placeholder="Search and select categories..."
                             />
                             <div className='subjects-container'>
                                 {displaySubs?.map(s => (
@@ -447,6 +721,9 @@ export default function AddBook() {
                                 ))}
                             </div>
                             {errors.subjects && <div className="text-danger small mt-2">{errors.subjects}</div>}
+                            {subjects.length === 0 && !errors.subjects && (
+                                <small className="text-muted mt-2">No categories selected. Please select at least one category.</small>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -456,20 +733,31 @@ export default function AddBook() {
                         <div>ISBN <small className="text-muted">(Optional - 10 or 13 digits)</small></div>
                         <input 
                             value={isbn} 
-                            onChange={e => setISBN(e.target.value)} 
+                            onChange={e => {
+                                setISBN(e.target.value);
+                                validateField('isbn', e.target.value);
+                            }}
+                            onBlur={() => validateField('isbn', isbn)}
                             className={`form-control ${errors.isbn ? 'is-invalid' : ''}`}
-                            placeholder="e.g., 9780140328721 or 0140328726"
+                            placeholder="e.g., 9780140328721 (13 digits) or 0140328726 (10 digits)"
                         />
                         {errors.isbn && <div className="text-danger small mt-1">{errors.isbn}</div>}
+                        {!errors.isbn && <small className="text-muted d-block mt-1">Format: 10 digits or 13 digits starting with 978 or 979</small>}
                     </div>
                     <div className="librarian-form-input">
                         <div>OLID <small className="text-muted">(Optional - Open Library ID)</small></div>
                         <input 
                             value={olid} 
-                            onChange={e => setOLID(e.target.value)} 
-                            className="form-control"
+                            onChange={e => {
+                                setOLID(e.target.value);
+                                validateField('olid', e.target.value);
+                            }}
+                            onBlur={() => validateField('olid', olid)}
+                            className={`form-control ${errors.olid ? 'is-invalid' : ''}`}
                             placeholder="e.g., OL7353617M"
                         />
+                        {errors.olid && <div className="text-danger small mt-1">{errors.olid}</div>}
+                        {!errors.olid && <small className="text-muted d-block mt-1">Format: OL + digits + letter (e.g., OL7353617M)</small>}
                     </div>
                     <div className="librarian-form-input">
                         <div>Visibility</div>
