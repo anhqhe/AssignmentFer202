@@ -185,22 +185,24 @@ export default function BookList() {
                                         {b.hidden ? 'Hidden' : 'Active'}
                                     </div>
                                 </td>
-                                <td className="book-actions">
-                                    <button onClick={() => navigate(`/book/${b.id}`)} className="book-action view">
-                                        <i className="fa-solid fa-info"></i>
-                                    </button>
-                                    <button onClick={()=>navigate(`/librarian/book/edit/${b.id}`)} className="book-action edit">
-                                        <i className="fa-solid fa-pen-to-square"></i>
-                                    </button>
-                                    {b.hidden ? (
-                                        <button onClick={() => toggleStatus(b.id)} className="book-action unhide">
-                                            <i className="fa-solid fa-eye"></i>
+                                <td className="book-actions-cell">
+                                    <div className="book-actions" aria-label="Book actions">
+                                        <button onClick={() => navigate(`/book/${b.id}`)} className="book-action view" title="View">
+                                            <i className="fa-solid fa-info"></i>
                                         </button>
-                                    ) : (
-                                        <button onClick={() => toggleStatus(b.id)} className="book-action hide">
-                                            <i className="fa-solid fa-eye-slash"></i>
+                                        <button onClick={()=>navigate(`/librarian/book/edit/${b.id}`)} className="book-action edit" title="Edit">
+                                            <i className="fa-solid fa-pen-to-square"></i>
                                         </button>
-                                    )}
+                                        {b.hidden ? (
+                                            <button onClick={() => toggleStatus(b.id)} className="book-action unhide" title="Unhide">
+                                                <i className="fa-solid fa-eye"></i>
+                                            </button>
+                                        ) : (
+                                            <button onClick={() => toggleStatus(b.id)} className="book-action hide" title="Hide">
+                                                <i className="fa-solid fa-eye-slash"></i>
+                                            </button>
+                                        )}
+                                    </div>
                                 </td>
                             </tr>
                         )
