@@ -89,18 +89,27 @@
     background-color: #F5F7FA;
 }
 
+.book-actions-cell{
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
 .book-actions {
-    display: flex;
+    display: inline-flex;
     gap: 8px;
     align-items: center;
     justify-content: center;
     flex-wrap: nowrap;
+    white-space: nowrap;
 }
 
 .book-action {
     border-radius: 5px;
     height: 30px;
     width: 30px;
+    min-width: 30px;
+    flex-shrink: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -145,6 +154,7 @@
     font-weight: 500;
     min-width: 70px;
     line-height: 1.5;
+    margin: 0 auto;
 }
 
 .book-status.active {
@@ -194,24 +204,26 @@
     height: 90px;
 }
 
-.table-container td:nth-child(2) {
+/* Cover column */
+.table-container td:nth-child(2),
+.table-container th:nth-child(2) {
     text-align: center;
     padding: 8px;
 }
 
-.table-container td:nth-child(6) {
+/* STATUS column - đơn giản hóa */
+.table-container td:nth-child(6),
+.table-container th:nth-child(6) {
     text-align: center;
     padding: 8px;
 }
 
-.table-container td:nth-child(7) {
+/* ACTIONS column - đơn giản hóa và đảm bảo buttons 1 dòng */
+.table-container td:nth-child(7),
+.table-container th:nth-child(7) {
     text-align: center;
     padding: 8px;
-}
-
-.table-container td.book-actions {
-    padding: 8px !important;
-    vertical-align: middle !important;
+    white-space: nowrap;
 }
 
 .add-book-button{
